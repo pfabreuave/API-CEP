@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-br">
+	<head>
+		<title>Usando un API</title>
+		<meta chaset="utf-8"/>
+	</head>
+		<body>
+		<div>
+			<form>
+				<h2>Codigo de Endereçamento Postal</h2>
+				CEP: <input type="text" id="cep">
+				<input type="button" value="Buscar" onclick="buscarCep()">
+				<input type="reset"  value="Limpar">
+				<input type="button" value="Sair" onclick="enviaYcerrar()"><br><br>
+				<input  id="logradouro" type="text" disabled> Logradouro<br><br>
+				<input  id="complemento" type="text" disabled> Complemento<br><br>
+				<input  id="bairro" type="text" disabled> Bairro<br><br>
+				<input  id="localidade" type="text" disabled> Localidade<br><br>
+				<input  id="uf" type="text" disabled> Uf<br><br>
+			</form>
+		</div>
+		<script>
+					
+				function buscarCep() {
+					var cep = document.getElementById("cep");
+					var url = "http://viacep.com.br/ws/" + cep.value + "/json/";
+					var logradouro = document.getElementById("logradouro");
+					var complemento = document.getElementById("complemento");
+					var bairro = document.getElementById("bairro");
+					var localidade = document.getElementById("localidade");
+					var uf = document.getElementById("uf");
+					fetch(url, {method: 'GET'})
+						.then(response => {
+							response.json()
+								.then(data => {
+									logradouro.value = data.logradouro;
+									complemento.value = data.complemento;
+									bairro.value = data.bairro;
+									localidade.value = data.localidade;
+									uf.value = data.uf;	
+								})
+						})
+
+							.catch(err => {
+									logradouro.value = "";
+									complemento.value = "";
+									bairro.value = "";
+									localidade.value = "";
+									uf.value = "";
+									alert("CEP não foi encontrado");
+							}) 	
+				}
+				function enviaYcerrar() {
+    				if (confirm('Estamos para servi-lo')) {
+      					window.close();
+      				}
+      			}
+		</script>
+</html>
+	
